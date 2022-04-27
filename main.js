@@ -66,7 +66,7 @@ client.on('message', message => {
     } else if (command === 'youtube') {
         client.commands.get('youtube').execute(message, args);
     } else if (command === 'help') {
-        message.channel.send('```!ban @user reason\n!kick @user reason\n!purge number\n!say message\n!youtube search\n!ping```');
+        client.commands.get('suggestions').execute(message, args);
     } else if (command === 'suggestions') {
         client.commands.get('suggestions').execute(message, args);
     } else if (command === 'poll') {
@@ -77,6 +77,10 @@ client.on('message', message => {
         client.commands.get('serverinfo').execute(message, args);
     } else if (command === 'ticket') {
         client.commands.get('ticket').execute(message, args);
+    } else if (command === 'mute') {
+        client.commands.get('mute').execute(message, args);
+    } else if (command === 'unmute') {
+        client.commands.get('unmute').execute(message, args);
     }
 });
 
