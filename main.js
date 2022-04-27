@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
-const client = new Discord.Client();
+const client = new Discord.Client({partials : ["MESSAGE", "CHANNEL", "REACTION"]});
+require('dotenv').config();
 
 const prefix = '!';
 const fs = require('fs');
@@ -81,8 +82,14 @@ client.on('message', message => {
         client.commands.get('mute').execute(message, args);
     } else if (command === 'unmute') {
         client.commands.get('unmute').execute(message, args);
+    } else if (command === 'weather') {
+        client.commands.get('weather').execute(message, args);
+    } else if (command === 'beg') {
+        client.commands.get('beg').execute(message, args);
+    } else if (command === 'reactionrole') {
+        client.commands.get('reactionrole').execute(message, args, Discord, client);
     }
 });
 
 
-client.login("BOT TOKEN");
+client.login(process.env.DISCORD_TOKEN);
