@@ -5,14 +5,17 @@ const prefix = '!';
 const fs = require('fs');
 
 const memberCounter = require('./member_counter.js');
-
 client.commands = new Discord.Collection();
+
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
 }
+["command handler", "event handler"].forEach(handler => {
+    require(`./handlers/${handler}`)(client, Discord);
+});
 
 
 client.once('ready', () => {
@@ -66,8 +69,16 @@ client.on('message', message => {
         message.channel.send('```!ban @user reason\n!kick @user reason\n!purge number\n!say message\n!youtube search\n!ping```');
     } else if (command === 'suggestions') {
         client.commands.get('suggestions').execute(message, args);
+    } else if (command === 'poll') {
+        client.commands.get('poll').execute(message, args);
+    } else if (command === 'image') {
+        client.commands.get('image').execute(message, args);
+    } else if (command === 'serverinfo') {
+        client.commands.get('serverinfo').execute(message, args);
+    } else if (command === 'ticket') {
+        client.commands.get('ticket').execute(message, args);
     }
 });
 
 
-client.login("OTY4NzczMDg3ODg3NzY5NjQw.YmjuPw.FWqWgr-evXH-02WAC-OMTxTYQzI");
+client.login("BOT TOKEN");
