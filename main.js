@@ -1,14 +1,20 @@
+/* Importing the discord.js library, creating a new Discord client, and importing the dotenv library. */
 const Discord = require('discord.js');
 const client = new Discord.Client({partials : ["MESSAGE", "CHANNEL", "REACTION"]});
 require('dotenv').config();
 
+/* The prefix is the character that you have to type before the command. For example, if the prefix is
+`!`, you would type `!ping` to execute the ping command. The fs is the file system, which is used to
+read the commands from the commands folder. */
 const prefix = '!';
 const fs = require('fs');
 
+/* Loading the member counter and the commands. */
 const memberCounter = require('./member_counter.js');
 client.commands = new Discord.Collection();
 
 
+/* Loading all the commands from the commands folder. */
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
@@ -19,12 +25,14 @@ for (const file of commandFiles) {
 });
 
 
+/* A function that is called when the bot is ready. */
 client.once('ready', () => {
     console.log('Ready!');
     memberCounter(client);
 });
 
 
+/* Giving the role "Member" to the user when they join the server. */
 client.on('guildMemberAdd', guildMember => {
     let welcomeRole = guildMember.guild.roles.find(role => role.name === 'Member');
     if (!welcomeRole) return;
@@ -36,6 +44,8 @@ client.on('guildMemberAdd', guildMember => {
 });
 
 
+/* Checking if the message starts with the prefix, and if it does, it will check if the command is
+valid. If it is, it will execute the command. */
 client.on('message', message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -92,4 +102,5 @@ client.on('message', message => {
 });
 
 
+/* Logging the bot into the Discord server. */
 client.login(process.env.DISCORD_TOKEN);
